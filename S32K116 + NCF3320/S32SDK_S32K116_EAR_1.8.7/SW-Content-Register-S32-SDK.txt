@@ -1,0 +1,86 @@
+Release Name: S32         Version: 1.8.7
+Software Development
+Kit (S32 SDK)
+
+S32 Peripheral            Description: Peripheral Abstraction Layer
+Abstraction Layer (PAL)   provides unified interfaces for families of
+                          peripherals, allowing for cross-platform
+                          compatibility of application code.
+                          Version: 1.8.7
+                          Author: NXP
+                          License: Proprietary - LA_OPT_BASE
+                          Format: source code
+                          Location: platform/pal
+
+S32 Peripheral Drivers    Description: Peripheral drivers are designed
+                          for the most common use cases identified for
+                          the underlying hardware block.
+                          Version: 1.8.7
+                          Author: NXP
+                          License: Proprietary - LA_OPT_BASE
+                          Format: source code
+                          Location: platform/drivers
+
+LIN Stack                 Description: NXP LIN2.x and
+                          SAE J2602 Stack package for S32K
+                          Version 1.8.7
+                          Author: NXP
+                          License: Proprietary - LA_OPT_BASE
+                          Format: source code
+                          Location: middleware/lin
+
+Processor Expert (PEx)    Description: Processor Expert (PEx) service
+Support for S32           pack with support for S32 1.0
+                          Author: NXP
+                          License: Proprietary.  See NXP EULA
+                          doc/LA_OPT_HOST_TOOL
+                          Format: binary
+                          Location: tools/pex
+
+FreeMASTER Serial         Description: FreeMASTER serial communication driver
+communication driver      Author:   NXP
+                          License:  Proprietary. See FreeMASTER-SW-License.txt
+                          Format:   Source code
+                          Location: examples/S32K14x/demo_apps/freemaster/FreeMASTER
+
+ANTLR                     Description: ANTLR (ANother Tool for Language Recognition)
+                          Version 3.2
+                          Author: http://www.antlr.org/
+                          License: BSD 3-clause "New" or "Revised" License, See doc/LICENSE_ANTLR.txt
+                          Format: binary
+                          Location: part of ParseGenerate.jar
+
+Apache Commons CLI        Description: Apache Commons CLI library
+                          Version 1.2
+                          Author: http://commons.apache.org/proper/commons-cli/
+                          License: Apache License 2.0, See doc/LICENSE_Apache_2.0.txt
+                          Format: binary
+                          Location: part of ParseGenerate.jar
+
+Apache Commons IO         Description: Apache Commons IO library
+                          Version 2.0
+                          Author: http://commons.apache.org/proper/commons-io/
+                          License: Apache License 2.0, See doc/LICENSE_Apache_2.0.txt
+                          Format: binary
+                          Location: part of ParseGenerate.jar
+
+SLF4J                     Description: Simple Logging Facade for Java (SLF4J)
+                          Version 1.6.1
+                          Author: http://www.slf4j.org/
+                          License: MIT license, See doc/LICENSE_MIT.txt
+                          Format: binary
+                          Location: part of ParseGenerate.jar
+
+Log4J                     Description: Apache Log4j
+                          Version 1.2.16
+                          Author: http://logging.apache.org/log4j/1.2/
+                          License: Apache License 2.0, See doc/LICENSE_Apache_2.0.txt
+                          Format: binary
+                          Location: part of ParseGenerate.jar
+
+StringTemplate            Description: Apache Commons IO library
+                          Version 3.2.1
+                          Author: http://www.stringtemplate.org/
+                          License: BSD 3-clause "New" or "Revised" License, See doc/LICENSE_BSD.txt
+                          Format: binary
+                          Location: part of ParseGenerate.jar
