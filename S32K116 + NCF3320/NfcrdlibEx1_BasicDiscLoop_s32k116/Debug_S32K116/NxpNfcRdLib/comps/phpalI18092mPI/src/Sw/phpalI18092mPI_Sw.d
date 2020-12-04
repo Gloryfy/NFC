@@ -13,10 +13,7 @@ NxpNfcRdLib/comps/phpalI18092mPI/src/Sw/phpalI18092mPI_Sw.o: \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phhalhw\src\ncx3320\phhalhw_ncx3320.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phpalI18092mPI/src/Sw/phpalI18092mPI_Sw_Int.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phpalI18092mPI/src/Sw/phpalI18092mPI_Sw.h
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_Status.h:
 
@@ -44,10 +41,4 @@ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phhalhw\src\ncx3320\phhalhw_ncx3
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h:
 
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h:
-
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h:
-
-D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phpalI18092mPI/src/Sw/phpalI18092mPI_Sw_Int.h:
-
-D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phpalI18092mPI/src/Sw/phpalI18092mPI_Sw.h:

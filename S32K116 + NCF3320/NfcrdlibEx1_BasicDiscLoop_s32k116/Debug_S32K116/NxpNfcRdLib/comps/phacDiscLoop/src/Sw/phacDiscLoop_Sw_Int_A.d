@@ -17,7 +17,6 @@ NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw_Int_A.o: \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phhalhw\src\ncx3320\phhalhw_ncx3320.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI14443p3a.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali14443p3a\src\sw\phpali14443p3a_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI14443p4a.h \
@@ -63,8 +62,6 @@ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h:
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h:
 
 d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phhalhw\src\ncx3320\phhalhw_ncx3320.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI14443p3a.h:
 

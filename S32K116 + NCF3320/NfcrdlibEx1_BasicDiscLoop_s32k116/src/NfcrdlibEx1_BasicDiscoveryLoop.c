@@ -43,7 +43,7 @@
 *******************************************************************************/
 
 phacDiscLoop_Sw_DataParams_t       * pDiscLoop;       /* Discovery loop component */
-
+#define NXPBUILD_SW_ISO15693_USER
 /*The below variables needs to be initialized according to example requirements by a customer */
 
 uint8_t  sens_res[2]     = {0x04, 0x00};              /* ATQ bytes - needed for anti-collision */
@@ -60,7 +60,7 @@ uint32_t aBasicDiscTaskBuffer[BASIC_DISC_DEMO_TASK_STACK];
 #define aBasicDiscTaskBuffer    NULL
 #endif /* PHOSAL_FREERTOS_STATIC_MEM_ALLOCATION */
 
-#ifdef NXPBUILD_SW_MIFARECLASSIC
+#ifdef NXPBUILD_SW_MIFARECLASSIC_USER
 #define NUMBER_OF_KEYENTRIES        2
 #define NUMBER_OF_KEYVERSIONPAIRS   2
 #define NUMBER_OF_KUCENTRIES        1
@@ -87,6 +87,42 @@ uint8_t Key[6] = {0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU};
 /* Don't change the following line */
 uint8_t Original_Key[6] = {0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU, 0xFFU};
 #endif
+#ifdef NXPBUILD_SW_ISO15693_USER
+/* PAL Headers */
+#include <phpalSli15693.h>
+
+/* AL Headers */
+#include <phalICode.h>
+
+#define ISO15693_NXP_TAG_ID             0x04    /* ISO15693 NXP Cards specific code */
+#define ISO15693_UID_NXP_IDPOS          6       /* ISO15693 NXP Cards specific code position (UID6) */
+#define ISO15693_UID_SIZE_BITS          64      /* ISO15693 UID Size in Bits */
+
+#define ISO15693_MFGID_CARDSEL_IDPOS    4       /* NXP Card Type detection (UID4) */
+#define ISO15693_MFGID_CARDSEL_MSK      0x18    /* NXP Card Type detection Mask value */
+#define ISO15693_MFGID_CARDSEL_BITPOS   3       /* NXP Card Type detection Bit position in UID4 */
+
+/* NXP Card Type(SLI/SLI-S/SLI-L or SLIX/SLIX-S/SLIX-L) detection (UID5) */
+#define ISO15693_UID_CARDSEL_IDPOS      5
+
+/* NXP Card Type states */
+#define ISO15693_MFGID_SLI_STATE        0
+#define ISO15693_MFGID_SLIX_STATE       2
+#define ISO15693_MFGID_SLIX2_STATE      1
+#define ISO15693_MFGID_DNA_STATE        3
+
+/* SLI Card Type states */
+#define ISO15693_UID_SLI_STATE          1
+#define ISO15693_UID_SLI_S_STATE        2
+#define ISO15693_UID_SLI_L_STATE        3
+
+/* SLIX Card Type states */
+#define ISO15693_UID_SLIX_STATE         1
+#define ISO15693_UID_SLIX_S_STATE       2
+#define ISO15693_UID_SLIX_L_STATE       3
+
+void * psalI15693;
+#endif
 /*******************************************************************************
 **   Static Defines
 *******************************************************************************/
@@ -103,7 +139,13 @@ static uint16_t bSavePollTechCfg;
 void BasicDiscoveryLoop_Demo(void  *pDataParams);
 /* Enable the semihosting */
 extern void initialise_monitor_handles(void);//alan 2020.09.23
+#ifdef NXPBUILD_SW_MIFARECLASSIC_USER
 void phalMfc_MifareCard_RW(phacDiscLoop_Sw_DataParams_t *pDataParams, uint16_t wNumberOfTags, uint16_t wTagsDetected);
+#endif
+#ifdef NXPBUILD_SW_ISO15693_USER
+void phalMfc_TypeVCard_RW(phacDiscLoop_Sw_DataParams_t *pDataParams, uint16_t wTagsDetected);
+static phStatus_t DisplayCardTypeInfo(uint8_t *pUID);
+#endif
 /*******************************************************************************
 **   Function Definitions
 *******************************************************************************/
@@ -363,13 +405,22 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
                 /* Get Detected Technology Type */
                 status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_TECH_DETECTED, &wTagsDetected);
                 CHECK_STATUS(status);
-
+#ifdef NXPBUILD_SW_MIFARECLASSIC_USER
                 if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_A))
                 {
                     DEBUG_PRINTF (" \tType A detected... \n\r");
                     phalMfc_MifareCard_RW(pDataParams, wNumberOfTags, wTagsDetected);
                 }
                 else
+#endif
+#ifdef NXPBUILD_SW_ISO15693_USER
+                if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_V))
+                {
+                    DEBUG_PRINTF (" \tType V detected... \n\r");
+                    phalMfc_TypeVCard_RW(pDataParams, wTagsDetected);
+                }
+                else
+#endif
                 {
                     phApp_PrintTagInfo(pDataParams, wNumberOfTags, wTagsDetected);
                 }
@@ -425,7 +476,7 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
         }
     }
 }
-
+#ifdef NXPBUILD_SW_MIFARECLASSIC_USER
 void phalMfc_MifareCard_RW(phacDiscLoop_Sw_DataParams_t *pDataParams, uint16_t wNumberOfTags, uint16_t wTagsDetected)
 {
     phStatus_t  status = 0;
@@ -567,6 +618,226 @@ void phalMfc_MifareCard_RW(phacDiscLoop_Sw_DataParams_t *pDataParams, uint16_t w
                     }while(1);
                 }
 }
+#endif
+#ifdef NXPBUILD_SW_ISO15693_USER
+void phalMfc_TypeVCard_RW(phacDiscLoop_Sw_DataParams_t *pDataParams,uint16_t wTagsDetected)
+{
+    phStatus_t  status = 0;
+    uint8_t     bBlock = 0x03;
+    uint8_t     *pRxbuffer;
+    uint16_t    bDataLength;
+    uint8_t     aTempUid[8];
+    uint8_t     aReceivedUid[8];
+    uint8_t     bDsfid = 0;
+
+            /* Check for Type V(ISO 15693) tag detection */
+            if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_V))
+            {
+                DEBUG_PRINTF("\nType V / ISO 15693 / T5T Detected \n");
+
+                /* Print UID */
+                DEBUG_PRINTF ("\nUID: ");
+                phApp_Print_Buff(pDataParams->sTypeVTargetInfo.aTypeV[0].aUid, 0x08);
+
+                /* Copy UID */
+                memcpy(aReceivedUid, pDataParams->sTypeVTargetInfo.aTypeV[0].aUid, 0x08);
+
+                /* Check and display Card type info */
+                if (DisplayCardTypeInfo(pDataParams->sTypeVTargetInfo.aTypeV[0].aUid) == PH_ERR_SUCCESS)
+                {
+                    do
+                    {
+                        /* Data length */
+                        bDataLength = 0x04;
+
+                        /* Block Read */
+                        DEBUG_PRINTF("\nRead Data from Block %d", bBlock);
+
+                        /* Read single block */
+                        status = phalICode_ReadSingleBlock(psalI15693,
+                            PHAL_ICODE_OPTION_OFF,
+                            bBlock,
+                            &pRxbuffer,
+                            &bDataLength);
+                        /* Check for Status */
+                        if(status != PH_ERR_SUCCESS)
+                        {
+                            /* Print Error info */
+                            DEBUG_PRINTF ("\nRead operation Failed!!!");
+                            DEBUG_PRINTF("\nExecution aborted!!!\n");
+                            break;
+                        }
+
+                        /* Read Success */
+                        DEBUG_PRINTF("\nRead Success");
+                        DEBUG_PRINTF("\nThe content of Block %d is:", bBlock);
+                        phApp_Print_Buff (pRxbuffer, bDataLength);
+                        DEBUG_PRINTF("\n\n --- End of Read Operation ---");
+
+                        /* Block Write */
+                        DEBUG_PRINTF("\n\nWrite data to Block %d", bBlock);
+
+                        /* Write single block */
+                        status = phalICode_WriteSingleBlock(psalI15693,
+                            PHAL_ICODE_OPTION_OFF,
+                            bBlock,
+                            pRxbuffer,
+                            bDataLength);
+                        /* Check for Status */
+                        if(status != PH_ERR_SUCCESS)
+                        {
+                            /* Print Error info */
+                            DEBUG_PRINTF ("\nWrite operation Failed!!!");
+                            DEBUG_PRINTF("\nExecution aborted!!!\n");
+                            break;
+                        }
+
+                        /* Write Success */
+                        DEBUG_PRINTF ("\nWrite Success");
+                        DEBUG_PRINTF("\n\n --- End of Write Operation ---");
+
+                        DEBUG_PRINTF("\n\n --- End of Example ---\n\n");
+                    }while(0);
+                }
+
+                DEBUG_PRINTF("\nPlease Remove the Card\n\n");
+
+                /* Field RESET */
+                status = phhalHw_FieldReset(pHal);
+                CHECK_STATUS(status);
+
+                /* Make sure that example application is not detecting the same card continuously */
+                do
+                {
+                    /* Clear UID buffer */
+                    memset(aTempUid, 0x00, 0x08);
+
+                    /* Inventory request */
+                    status = phpalSli15693_Inventory(pDataParams->pPalSli15693DataParams,
+                        (PHPAL_SLI15693_FLAG_NBSLOTS | PHPAL_SLI15693_FLAG_DATA_RATE | PHPAL_SLI15693_FLAG_INVENTORY),
+                        0,
+                        aReceivedUid,
+                        ISO15693_UID_SIZE_BITS,
+                        &bDsfid,
+                        aTempUid);
+
+                    /* Check for Status */
+                    if (status != PH_ERR_SUCCESS)
+                    {
+                        break; /* Card Removed, break from the loop */
+                    }
+
+                    /* Delay - 5 milli seconds*/
+                    status = phhalHw_Wait(pDataParams->pHalDataParams, PHHAL_HW_TIME_MILLISECONDS, 5);
+                    CHECK_STATUS(status);
+
+                }while(1);
+            }
+}
+static phStatus_t DisplayCardTypeInfo(uint8_t *pUID)
+{
+    uint8_t bCardType;
+    phStatus_t  status = PH_ERR_SUCCESS;
+
+ //   for(int i = 0;i<0x08;i++)
+ //   {
+ //       DEBUG_PRINTF("[USER DEBUG] pUID %d = %x\r\n",i,pUID[i]);
+ //   }
+
+    /* Check for ISO15693 NXP TAG */
+    if (pUID[ISO15693_UID_NXP_IDPOS] != ISO15693_NXP_TAG_ID)
+    {
+        /* Print Product type */
+        DEBUG_PRINTF("\nProduct: Non NXP ISO15693 Tag Detected\n");
+
+        /* Return Status */
+        return (PH_COMP_PAL_SLI15693 | PH_ERR_INVALID_DATA_PARAMS);
+    }
+
+    /* Read SLI Card type information from UID (Byte 4) */
+    bCardType = ((pUID[ISO15693_MFGID_CARDSEL_IDPOS] & ISO15693_MFGID_CARDSEL_MSK) >> ISO15693_MFGID_CARDSEL_BITPOS);
+
+    /* Switch based on Card Type(SLI/SLIX/SLIX2) */
+    switch (bCardType)
+    {
+    case ISO15693_MFGID_SLI_STATE:          /* SLI Card state */
+        /* Switch based on Card Type(SLI/SLI-S/SLI-L) */
+        switch (pUID[ISO15693_UID_CARDSEL_IDPOS])
+        {
+        case ISO15693_UID_SLI_STATE:        /* SLI Card state */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: ICODE SLI\n");
+            break;
+
+        case ISO15693_UID_SLI_S_STATE:      /* SLI-S Card state */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: ICODE SLI-S\n");
+            break;
+
+        case ISO15693_UID_SLI_L_STATE:      /* SLI-L Card state */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: ICODE SLI-L\n");
+            break;
+
+        default:                            /* default */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: Unidentified Tag\n");
+            /* Update status */
+            status = (PH_COMP_PAL_SLI15693 | PH_ERR_INVALID_DATA_PARAMS);
+            break;
+        }
+        break;
+
+    case ISO15693_MFGID_SLIX_STATE:         /* SLIX Card state */
+        /* Switch based on Card Type(SLIX/SLIX-S/SLIX-L) */
+        switch (pUID[ISO15693_UID_CARDSEL_IDPOS])
+        {
+        case ISO15693_UID_SLIX_STATE:       /* SLIX Card state */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: ICODE SLIX\n");
+            break;
+
+        case ISO15693_UID_SLIX_S_STATE:     /* SLIX-S Card state */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: ICODE SLIX-S\n");
+            break;
+
+        case ISO15693_UID_SLIX_L_STATE:     /* SLIX-L Card state */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: ICODE SLIX-L\n");
+            break;
+
+        default:                            /* default */
+            /* Print Product type */
+            DEBUG_PRINTF("\nProduct: Unidentified Tag\n");
+            /* Update status */
+            status = (PH_COMP_PAL_SLI15693 | PH_ERR_INVALID_DATA_PARAMS);
+            break;
+        }
+        break;
+
+    case ISO15693_MFGID_SLIX2_STATE:        /* SLIX2 Card state */
+        /* Print Product type */
+        DEBUG_PRINTF("\nProduct: ICODE SLIX2\n");
+        break;
+
+    case ISO15693_MFGID_DNA_STATE:
+        /* Print Product type */
+        DEBUG_PRINTF("\nProduct: ICODE DNA\n");
+        break;
+
+    default:                                /* default */
+        /* Print Product type */
+        DEBUG_PRINTF("\nProduct: Unidentified Tag\n");
+        /* Update status */
+        status = (PH_COMP_PAL_SLI15693 | PH_ERR_INVALID_DATA_PARAMS);
+        break;
+    }
+
+    /* Return Status */
+    return status;
+}
+#endif
 /******************************************************************************
 **                            End Of File
 ******************************************************************************/

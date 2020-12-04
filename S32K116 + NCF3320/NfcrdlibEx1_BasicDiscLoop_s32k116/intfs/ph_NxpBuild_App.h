@@ -83,14 +83,14 @@
 
 #ifndef NXPBUILD__PHHAL_HW_PN512                            /**< If FE HAL is PN512, then exclude ISO15693 & ISO18000p3m3 PAL, otherwise include as required. */
     #define NXPBUILD__PHPAL_SLI15693_SW                     /**< PAL SLI 15693 Component is included. */
-    #define NXPBUILD__PHPAL_I18000P3M3_SW                   /**< PAL ISO 18000p3m3 Component is included. */
+//    #define NXPBUILD__PHPAL_I18000P3M3_SW                   /**< PAL ISO 18000p3m3 Component is included. */
 #endif /* NXPBUILD__PHHAL_HW_PN512 */
 
 #ifdef NXPBUILD__PHHAL_HW_NCx3320                             /**< If FE HAL is NCx3320, then include EPC UID PAL as required, otherwise exclude. */
-    #define NXPBUILD__PHPAL_EPCUID_SW                       /**< PAL EPC UID SW Component is included. */
+ //   #define NXPBUILD__PHPAL_EPCUID_SW                       /**< PAL EPC UID SW Component is included. */
 #endif
 
-#define NXPBUILD__PHPAL_I18092MPI_SW                        /**< PAL ISO18092 (P2P) SW Component is included. */
+//#define NXPBUILD__PHPAL_I18092MPI_SW                        /**< PAL ISO18092 (P2P) SW Component is included. */
 
 #ifndef NXPBUILD__PHHAL_HW_NCx3320                            /**< If FE HAL is NCx3320, then exclude ISO14443 Card Mode PAL & ISO18092 Target Mode PAL, otherwise include as required. */
 //      #define NXPBUILD__PHPAL_I14443P4MC_SW               /**< PAL ISO 14443-4 Card Mode SW Component is included. */

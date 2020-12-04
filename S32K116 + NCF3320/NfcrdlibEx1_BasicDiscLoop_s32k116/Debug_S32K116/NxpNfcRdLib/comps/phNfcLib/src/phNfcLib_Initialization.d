@@ -25,16 +25,8 @@ NxpNfcRdLib/comps/phNfcLib/src/phNfcLib_Initialization.o: \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali14443p4\src\sw\phpali14443p4_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalFelica.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalfelica\src\sw\phpalfelica_sw.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalSli15693.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalsli15693\src\sw\phpalsli15693_sw.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18000p3m3.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18000p3m3\src\sw\phpali18000p3m3_sw.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalEpcUid.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalepcuid\src\sw\phpalepcuid_sw.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalI18000p3m3.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phali18000p3m3\src\sw\phali18000p3m3_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalFelica.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phalfelica\src\sw\phalfelica_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalICode.h \
@@ -101,25 +93,9 @@ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalFelica.h:
 
 d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalfelica\src\sw\phpalfelica_sw.h:
 
-D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h:
-
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalSli15693.h:
 
 d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalsli15693\src\sw\phpalsli15693_sw.h:
-
-D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18000p3m3.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18000p3m3\src\sw\phpali18000p3m3_sw.h:
-
-D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalEpcUid.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalepcuid\src\sw\phpalepcuid_sw.h:
-
-D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalI18000p3m3.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phali18000p3m3\src\sw\phali18000p3m3_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalFelica.h:
 

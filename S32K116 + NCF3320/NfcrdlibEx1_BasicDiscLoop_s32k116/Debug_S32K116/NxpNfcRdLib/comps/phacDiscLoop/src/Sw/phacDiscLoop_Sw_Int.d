@@ -21,7 +21,6 @@ NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw_Int.o: \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI14443p3b.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali14443p3b\src\sw\phpali14443p3b_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw_Int_A.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw_Int_B.h \
@@ -71,8 +70,6 @@ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI14443p3b.h:
 d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali14443p3b\src\sw\phpali14443p3b_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw_Int_A.h:
 
