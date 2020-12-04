@@ -38,7 +38,6 @@
 
 /* Local headers */
 #include "NfcrdlibEx1_BasicDiscoveryLoop.h"
-
 /*******************************************************************************
 **   Global Defines
 *******************************************************************************/
@@ -104,6 +103,7 @@ static uint16_t bSavePollTechCfg;
 void BasicDiscoveryLoop_Demo(void  *pDataParams);
 /* Enable the semihosting */
 extern void initialise_monitor_handles(void);//alan 2020.09.23
+void phalMfc_MifareCard_RW(phacDiscLoop_Sw_DataParams_t *pDataParams, uint16_t wNumberOfTags, uint16_t wTagsDetected);
 /*******************************************************************************
 **   Function Definitions
 *******************************************************************************/
@@ -124,10 +124,6 @@ int main (void)
 #ifdef PH_PLATFORM_HAS_ICFRONTEND
         phNfcLib_AppContext_t AppContext = {0};
 #endif /* PH_PLATFORM_HAS_ICFRONTEND */
-
-#ifndef PH_OSAL_NULLOS
-        phOsal_ThreadObj_t BasicDisc;
-#endif /* PH_OSAL_NULLOS */
 
         /* Perform Controller specific initialization. */
         phApp_CPU_Init();
@@ -155,11 +151,6 @@ int main (void)
         pHal = phNfcLib_GetDataParams(PH_COMP_HAL);
         pDiscLoop = phNfcLib_GetDataParams(PH_COMP_AC_DISCLOOP);
 
-#ifdef NXPBUILD_SW_MIFARECLASSIC
-        psKeyStore = phNfcLib_GetDataParams(PH_COMP_KEYSTORE);
-        psalMFC = phNfcLib_GetDataParams(PH_COMP_AL_MFC);
-#endif
-
         /* Initialize other components that are not initialized by NFCLIB and configure Discovery Loop. */
         status = phApp_Comp_Init(pDiscLoop);
         CHECK_STATUS(status);
@@ -170,19 +161,7 @@ int main (void)
         CHECK_STATUS(status);
         if(status != PH_ERR_SUCCESS) break;
 
-#ifndef PH_OSAL_NULLOS
-
-        BasicDisc.pTaskName = (uint8_t *) "BasicDiscLoop";
-        BasicDisc.pStackBuffer = aBasicDiscTaskBuffer;
-        BasicDisc.priority = BASIC_DISC_DEMO_TASK_PRIO;
-        BasicDisc.stackSizeInNum = BASIC_DISC_DEMO_TASK_STACK;
-        phOsal_ThreadCreate(&BasicDisc.ThreadHandle, &BasicDisc, &BasicDiscoveryLoop_Demo, pDiscLoop);
-        phOsal_StartScheduler();
-        DEBUG_PRINTF("RTOS Error : Scheduler exited. \n\r");
-
-#else
         (void)BasicDiscoveryLoop_Demo(pDiscLoop);
-#endif
     } while(0);
 
     while(1); //Comes here if initialization failure or scheduler exit due to error
@@ -205,46 +184,6 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
     uint16_t      wValue;
     uint8_t       bIndex;
     
-#if 0
-//#ifdef NXPBUILD_SW_MIFARECLASSIC
-    /* MifareClassic Parameters */
-    uint8_t     bUid[PHAC_DISCLOOP_I3P3A_MAX_UID_LENGTH];
-    uint8_t     bUidSize;
-
-    /* Initialize the keystore component */
-    status = phKeyStore_Sw_Init(
-        psKeyStore,
-        sizeof(phKeyStore_Sw_DataParams_t),
-        &sKeyEntries[0],
-        NUMBER_OF_KEYENTRIES,
-        &sKeyVersionPairs[0],
-        NUMBER_OF_KEYVERSIONPAIRS,
-        &sKUCEntries[0],
-        NUMBER_OF_KUCENTRIES
-        );
-    CHECK_STATUS(status);
-
-    /* load a Key to the Store */
-    /* Note: If You use Key number 0x00, be aware that in SAM
-      this Key is the 'Host authentication key' !!! */
-    status = phKeyStore_FormatKeyEntry(psKeyStore, 1, PH_KEYSTORE_KEY_TYPE_MIFARE);
-    CHECK_STATUS(status);
-
-    /* Set Key Store */
-    status = phKeyStore_SetKey(psKeyStore, 1, 0, PH_KEYSTORE_KEY_TYPE_MIFARE, &Key[0], 0);
-    CHECK_STATUS(status);
-
-#endif /* NXPBUILD_SW_MIFARECLASSIC */
-
-#if 0
-    /* Read the version of the reader IC */
-    status = phhalHw_Ncx3320_ReadRegister(pHal, PHHAL_HW_NCx3320_REG_VERSION, &bDataBuffer[0]);
-    CHECK_STATUS(status);
-    DEBUG_PRINTF("\nReader chip NCx3320: 0x%02x\n", bDataBuffer[0]);
-#endif
-    status = phApp_HALConfigAutoColl();//not important
-    CHECK_STATUS(status);
-
     /* Get Poll Configuration */
     status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_PAS_POLL_TECH_CFG, &bSavePollTechCfg);
     CHECK_STATUS(status);
@@ -379,7 +318,7 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
                     }
                     else
                     {
-                        PRINT_INFO("\t\tCard activation failed...\n\r");
+                        DEBUG_PRINTF("\t\t Card activation failed...\n\r");
                     }
                 }
                 /* Switch to LISTEN mode after POLL mode */
@@ -389,6 +328,7 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
             {
                 /* LPCD is succeed but no tag is detected. */
             	phApp_Configure_LED(RED, PH_ON);
+            	DEBUG_PRINTF("\t\t PHAC_DISCLOOP_NO_TECH_DETECTED&PHAC_DISCLOOP_NO_DEVICE_RESOLVED\n\r");
 
             	status = phhalHw_EventWait(pHal, LISTEN_PHASE_TIME_MS);
 
@@ -400,6 +340,7 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
                  * If external RF is detected during POLL, return back so that the application
                  * can restart the loop in LISTEN mode
                  */
+                 DEBUG_PRINTF("\n\r PHAC_DISCLOOP_EXTERNAL_RFON\n\r");
             }
             else if((status & PH_ERR_MASK) == PHAC_DISCLOOP_MERGED_SEL_RES_FOUND)//unknown
             {
@@ -422,32 +363,115 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
                 /* Get Detected Technology Type */
                 status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_TECH_DETECTED, &wTagsDetected);
                 CHECK_STATUS(status);
-#if 0
-//#ifdef NXPBUILD_SW_MIFARECLASSIC
+
                 if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_A))
                 {
                     DEBUG_PRINTF (" \tType A detected... \n\r");
-                    /* Check for MIFARE Classic */
-                    if (0x08 == (pDiscLoop->sTypeATargetInfo.aTypeA_I3P3[0].aSak & 0x08))
-                    {
+                    phalMfc_MifareCard_RW(pDataParams, wNumberOfTags, wTagsDetected);
+                }
+                else
+                {
+                    phApp_PrintTagInfo(pDataParams, wNumberOfTags, wTagsDetected);
+                }
+                
+
+                /* Switch to LISTEN mode after POLL mode */
+            }
+            else if((status & PH_ERR_MASK) == PHAC_DISCLOOP_ACTIVE_TARGET_ACTIVATED)//unknown
+            {
+                DEBUG_PRINTF (" \n\r Active target detected... \n\r");
+                /* Switch to LISTEN mode after POLL mode */
+            }
+            else if((status & PH_ERR_MASK) == PHAC_DISCLOOP_PASSIVE_TARGET_ACTIVATED)//unknown
+            {
+                DEBUG_PRINTF (" \n\r Passive target detected... \n\r");
+
+                /* Get Detected Technology Type */
+                status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_TECH_DETECTED, &wTagsDetected);
+                CHECK_STATUS(status);
+
+                phApp_PrintTagInfo(pDataParams, 1, wTagsDetected);
+
+                /* Switch to LISTEN mode after POLL mode */
+            }
+            else if ((status & PH_ERR_MASK) == PHAC_DISCLOOP_LPCD_NO_TECH_DETECTED)//transmit this message to CAN and UART
+            {
+                /* LPCD is succeed but no tag is detected. */
+            	phApp_Configure_LED(RED, PH_ON);
+            	DEBUG_PRINTF("\n\r PHAC_DISCLOOP_LPCD_NO_TECH_DETECTED\n\r");
+
+            	status = phhalHw_EventWait(pHal, LISTEN_PHASE_TIME_MS);
+            }
+            else
+            {
+                if((status & PH_ERR_MASK) == PHAC_DISCLOOP_FAILURE)
+                {
+                    status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_ADDITIONAL_INFO, &wValue);
+                    CHECK_STATUS(status);
+                    DEBUG_ERROR_PRINT(PrintErrorInfo(wValue));
+                }
+                else
+                {
+                    DEBUG_ERROR_PRINT(PrintErrorInfo(status));
+                }
+            }
+
+            /* Update the Entry point to LISTEN mode. */
+            wEntryPoint = PHAC_DISCLOOP_ENTRY_POINT_LISTEN;
+        }
+        else
+        {        
+            wEntryPoint = PHAC_DISCLOOP_ENTRY_POINT_POLL;
+        }
+    }
+}
+
+void phalMfc_MifareCard_RW(phacDiscLoop_Sw_DataParams_t *pDataParams, uint16_t wNumberOfTags, uint16_t wTagsDetected)
+{
+    phStatus_t  status = 0;
+    uint8_t     bUid[PHAC_DISCLOOP_I3P3A_MAX_UID_LENGTH];
+    uint8_t     bUidSize;
+#if 0
+    /* Initialize the keystore component */
+    status = phKeyStore_Sw_Init(
+        psKeyStore,
+        sizeof(phKeyStore_Sw_DataParams_t),
+        &sKeyEntries[0],
+        NUMBER_OF_KEYENTRIES,
+        &sKeyVersionPairs[0],
+        NUMBER_OF_KEYVERSIONPAIRS,
+        &sKUCEntries[0],
+        NUMBER_OF_KUCENTRIES
+        );
+    CHECK_STATUS(status);
+
+    status = phKeyStore_FormatKeyEntry(psKeyStore, 1, PH_KEYSTORE_KEY_TYPE_MIFARE);
+    CHECK_STATUS(status);
+
+    /* Set Key Store */
+    status = phKeyStore_SetKey(psKeyStore, 1, 0, PH_KEYSTORE_KEY_TYPE_MIFARE, &Key[0], 0);
+    CHECK_STATUS(status);
+#endif
+    if (0x08 == (pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].aSak & 0x08))
+    {
                     do
                     {
                         /* Print UID */
                         DEBUG_PRINTF ("\nUID: ");
-                        phApp_Print_Buff(pDiscLoop->sTypeATargetInfo.aTypeA_I3P3[0].aUid,
+                        phApp_Print_Buff(pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].aUid,
                                 pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].bUidSize);
 
                         /* Print ATQA  and SAK */
                         DEBUG_PRINTF("\nATQA:");
-                        phApp_Print_Buff(pDiscLoop->sTypeATargetInfo.aTypeA_I3P3[0].aAtqa, 2);
-                        DEBUG_PRINTF ("\nSAK: 0x%x",pDiscLoop->sTypeATargetInfo.aTypeA_I3P3[0].aSak);
+                        phApp_Print_Buff(pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].aAtqa, 2);
+                        DEBUG_PRINTF ("\nSAK: 0x%x",pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].aSak);
 
                         /* Print Product type */
                         DEBUG_PRINTF("\nProduct: MIFARE Classic \n");
 
-                        bUidSize = pDiscLoop->sTypeATargetInfo.aTypeA_I3P3[0].bUidSize;
-                        memcpy(bUid, pDiscLoop->sTypeATargetInfo.aTypeA_I3P3[0].aUid, bUidSize);
-
+                        bUidSize = pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].bUidSize;
+                        memcpy(bUid, pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].aUid, bUidSize);
+#if 0
                         /* Authenticate with the Key
                          * We can authenticate at any block of a sector and we will get the access to all blocks of the same sector
                          * For example authenticating at block 5, we will get the access to blocks 4, 5, 6 and 7.
@@ -509,7 +533,7 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
 
                         /* End of example */
                         DEBUG_PRINTF("\n\n --- End of Example --- \n\n");
-
+#endif
                     }while(0);
 
                     DEBUG_PRINTF("\nPlease Remove the Card\n\n");
@@ -521,9 +545,10 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
                     /* Make sure that example application is not detecting the same card continuously */
                     do
                     {
+                        DEBUG_PRINTF("[User Log]wait card remove\n");
                         /* Send WakeUpA */
-                        status = phpalI14443p3a_WakeUpA(pDiscLoop->pPal1443p3aDataParams,
-                                                        pDiscLoop->sTypeATargetInfo.aTypeA_I3P3[0].aAtqa);
+                        status = phpalI14443p3a_WakeUpA(pDataParams->pPal1443p3aDataParams,
+                                                        pDataParams->sTypeATargetInfo.aTypeA_I3P3[0].aAtqa);
 
                         /* Check for Status */
                         if (status != PH_ERR_SUCCESS)
@@ -532,136 +557,16 @@ void BasicDiscoveryLoop_Demo(void  *pDataParams)
                         }
 
                         /* Send HaltA */
-                        status = phpalI14443p3a_HaltA(pDiscLoop->pPal1443p3aDataParams);
+                        status = phpalI14443p3a_HaltA(pDataParams->pPal1443p3aDataParams);
                         CHECK_STATUS(status);
 
                         /* Delay - 5 milli seconds*/
-                        status = phhalHw_Wait(pDiscLoop->pHalDataParams, PHHAL_HW_TIME_MILLISECONDS, 5);
+                        status = phhalHw_Wait(pDataParams->pHalDataParams, PHHAL_HW_TIME_MILLISECONDS, 5);
                         CHECK_STATUS(status);
 
                     }while(1);
                 }
-                }
-#endif /* NXPBUILD_SW_MIFARECLASSIC */
-                if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_B))
-                {
-                    DEBUG_PRINTF (" \tType B detected... \n\r");
-                }
-                if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_F212))
-                {
-                    DEBUG_PRINTF (" \tType F detected with baud rate 212... \n\r");
-                }
-                if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_F424))
-                {
-                    DEBUG_PRINTF (" \tType F detected with baud rate 424... \n\r");
-                }
-                if(PHAC_DISCLOOP_CHECK_ANDMASK(wTagsDetected, PHAC_DISCLOOP_POS_BIT_MASK_V))
-                {
-                    DEBUG_PRINTF(" \tType V / ISO 15693 / T5T detected... \n\r");
-                }
-
-                phApp_PrintTagInfo(pDataParams, wNumberOfTags, wTagsDetected);
-
-                /* Switch to LISTEN mode after POLL mode */
-            }
-            else if((status & PH_ERR_MASK) == PHAC_DISCLOOP_ACTIVE_TARGET_ACTIVATED)//unknown
-            {
-                DEBUG_PRINTF (" \n\r Active target detected... \n\r");
-                /* Switch to LISTEN mode after POLL mode */
-            }
-            else if((status & PH_ERR_MASK) == PHAC_DISCLOOP_PASSIVE_TARGET_ACTIVATED)//unknown
-            {
-                DEBUG_PRINTF (" \n\r Passive target detected... \n\r");
-
-                /* Get Detected Technology Type */
-                status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_TECH_DETECTED, &wTagsDetected);
-                CHECK_STATUS(status);
-
-                phApp_PrintTagInfo(pDataParams, 1, wTagsDetected);
-
-                /* Switch to LISTEN mode after POLL mode */
-            }
-            else if ((status & PH_ERR_MASK) == PHAC_DISCLOOP_LPCD_NO_TECH_DETECTED)//transmit this message to CAN and UART
-            {
-                /* LPCD is succeed but no tag is detected. */
-            	phApp_Configure_LED(RED, PH_ON);
-
-            	status = phhalHw_EventWait(pHal, LISTEN_PHASE_TIME_MS);
-            }
-            else
-            {
-                if((status & PH_ERR_MASK) == PHAC_DISCLOOP_FAILURE)
-                {
-                    status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_ADDITIONAL_INFO, &wValue);
-                    CHECK_STATUS(status);
-                    DEBUG_ERROR_PRINT(PrintErrorInfo(wValue));
-                }
-                else
-                {
-                    DEBUG_ERROR_PRINT(PrintErrorInfo(status));
-                }
-            }
-
-            /* Update the Entry point to LISTEN mode. */
-            wEntryPoint = PHAC_DISCLOOP_ENTRY_POINT_LISTEN;
-        }
-        else
-        {
-            if((status & PH_ERR_MASK) == PHAC_DISCLOOP_EXTERNAL_RFOFF)//delete
-            {
-                /*
-                 * Enters here if in the target/card mode and external RF is not available
-                 * Wait for LISTEN timeout till an external RF is detected.
-                 * Application may choose to go into standby at this point.
-                 */
-                status = phhalHw_EventConsume(pHal);
-                CHECK_STATUS(status);
-
-                status = phhalHw_SetConfig(pHal, PHHAL_HW_CONFIG_RFON_INTERRUPT, PH_ON);
-                CHECK_STATUS(status);
-
-                status = phhalHw_EventWait(pHal, LISTEN_PHASE_TIME_MS);
-                if((status & PH_ERR_MASK) == PH_ERR_IO_TIMEOUT)
-                {
-                    wEntryPoint = PHAC_DISCLOOP_ENTRY_POINT_POLL;
-                }
-                else
-                {
-                    wEntryPoint = PHAC_DISCLOOP_ENTRY_POINT_LISTEN;
-                }
-            }
-            else
-            {
-                if((status & PH_ERR_MASK) == PHAC_DISCLOOP_ACTIVATED_BY_PEER)
-                {
-                    DEBUG_PRINTF (" \n\r Device activated in listen mode... \n\r");
-                }
-                else if ((status & PH_ERR_MASK) == PH_ERR_INVALID_PARAMETER)
-                {
-                    /* In case of Front end used is NCx3320, then listen mode is not supported.
-                     * Switch from listen mode to poll mode. */
-                }
-                else
-                {
-                    if((status & PH_ERR_MASK) == PHAC_DISCLOOP_FAILURE)
-                    {
-                        status = phacDiscLoop_GetConfig(pDataParams, PHAC_DISCLOOP_CONFIG_ADDITIONAL_INFO, &wValue);
-                        CHECK_STATUS(status);
-                        DEBUG_ERROR_PRINT(PrintErrorInfo(wValue));
-                    }
-                    else
-                    {
-                        DEBUG_ERROR_PRINT(PrintErrorInfo(status));
-                    }
-                }
-
-                /* On successful activated by Peer, switch to LISTEN mode */
-                wEntryPoint = PHAC_DISCLOOP_ENTRY_POINT_POLL;
-            }
-        }
-    }
 }
-
 /******************************************************************************
 **                            End Of File
 ******************************************************************************/

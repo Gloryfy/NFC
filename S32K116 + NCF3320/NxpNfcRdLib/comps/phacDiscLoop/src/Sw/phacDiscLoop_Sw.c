@@ -37,6 +37,7 @@
 #include <phpalI18000p3m3.h>
 #include <phpalSli15693.h>
 #include <phpalI18092mPI.h>
+#include <phApp_Init.h>
 
 #ifdef NXPBUILD__PHAC_DISCLOOP_SW
 #include "phacDiscLoop_Sw.h"
@@ -264,6 +265,7 @@ phStatus_t phacDiscLoop_Sw_Run(
         if ((0U != (pDataParams->bLpcdEnabled))
             && (pDataParams->bPollState == PHAC_DISCLOOP_POLL_STATE_DETECTION))
         {
+            DEBUG_PRINTF("[User Log]entry here\r\n");
             wDiscloopStatus = phhalHw_Lpcd(pDataParams->pHalDataParams);
             if ((wDiscloopStatus & PH_ERR_MASK) != PH_ERR_SUCCESS)
             {

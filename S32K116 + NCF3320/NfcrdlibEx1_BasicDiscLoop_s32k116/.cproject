@@ -63,7 +63,6 @@
 								<option id="com.freescale.s32ds.cross.gnu.arm.cortexm.tool.c.compiler.option.target.mcpu.500557475" name="ARM family" superClass="com.freescale.s32ds.cross.gnu.arm.cortexm.tool.c.compiler.option.target.mcpu" useByScannerDiscovery="false" value="com.freescale.s32ds.cross.gnu.arm.cortexm.tool.c.compiler.option.target.mcpu.cortex-m0plus" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.893547657" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="NXPBUILD_CUSTOMER_HEADER_INCLUDED"/>
-									<listOptionValue builtIn="false" value="NXPBUILD__PH_KEYSTORE_SW"/>
 									<listOptionValue builtIn="false" value="DEV_ERROR_DETECT"/>
 									<listOptionValue builtIn="false" value="DEBUG"/>
 									<listOptionValue builtIn="false" value="CPU_S32K116"/>

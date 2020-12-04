@@ -656,8 +656,8 @@ phStatus_t phApp_Comp_Init(void * pDiscLoopParams)
     pDiscLoop->sTypeATargetInfo.sTypeA_P2P.pGi       = (uint8_t *)aLLCPGeneralBytes;
     pDiscLoop->sTypeATargetInfo.sTypeA_P2P.bGiLength = bLLCPGBLength;
     /* Assign the GI for Type F */
-    pDiscLoop->sTypeFTargetInfo.sTypeF_P2P.pGi       = (uint8_t *)aLLCPGeneralBytes;
-    pDiscLoop->sTypeFTargetInfo.sTypeF_P2P.bGiLength = bLLCPGBLength;
+//    pDiscLoop->sTypeFTargetInfo.sTypeF_P2P.pGi       = (uint8_t *)aLLCPGeneralBytes;//alan 2020
+//    pDiscLoop->sTypeFTargetInfo.sTypeF_P2P.bGiLength = bLLCPGBLength;//alan 2020
 #endif
 
 #if defined(NXPBUILD__PHAC_DISCLOOP_TYPEA_P2P_TAGS) || defined(NXPBUILD__PHAC_DISCLOOP_TYPEA_P2P_ACTIVE)
@@ -934,6 +934,8 @@ phStatus_t phApp_ConfigureLPCD(void)
 		status = phhalHw_Ncx3320_Cmd_Lpcd_GetConfig(pHal, &bValueI, &bValueQ);
 	} while (status == PH_STATUS_INPROCESS);
 	CHECK_SUCCESS(status);
+
+	DEBUG_PRINTF("[User Log]bValueI: %d, bValueQ: %d\r\n",bValueI,bValueQ);
 
     /* Configure I and Q values for LPCD detection cycle. */
     status = phhalHw_Ncx3320_Cmd_Lpcd_SetConfig(

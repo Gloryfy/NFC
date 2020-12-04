@@ -25,6 +25,7 @@
 
 #include <ph_Status.h>
 #include <ph_RefDefs.h>
+#include <phApp_Init.h>
 
 #ifdef NXPBUILD__PHHAL_HW_NCx3320
 
@@ -56,6 +57,7 @@ phStatus_t phhalHw_Ncx3320_WaitIrq(
     phOsal_EventBits_t   PH_MEMLOC_REM dwEventReceived = 0;
 #endif /* _WIN32 */
 
+     //DEBUG_PRINTF("[User Log]entry here3\r\n");
     /* Parameter check */
     if ((0U == bIrq0WaitFor) && (0U == bIrq1WaitFor))
     {

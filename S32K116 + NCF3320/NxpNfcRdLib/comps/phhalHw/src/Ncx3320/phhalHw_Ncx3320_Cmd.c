@@ -26,6 +26,7 @@
 #include <phDriver.h>
 #include <ph_RefDefs.h>
 #include <phNxpNfcRdLib_Config.h>
+#include <phApp_Init.h>
 
 #ifdef NXPBUILD__PHHAL_HW_NCx3320
 #include <BoardSelection.h>
@@ -679,6 +680,7 @@ phStatus_t phhalHw_Ncx3320_Cmd_Lpcd(
 			bIrq1WaitFor |= PHHAL_HW_NCx3320_BIT_TIMER1IRQ;
 			break;
 	}
+	 DEBUG_PRINTF("[User Log]entry here1\r\n");
     status = phhalHw_Ncx3320_Command_Int(
         pDataParams,
         aCmd,

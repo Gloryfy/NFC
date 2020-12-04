@@ -48,7 +48,7 @@
 
 #define PHDRIVER_PIN_RESET        (((PORT_C_BASE & 0x000FFFFFu) | (GPIO_C_BASE & 0x00000FFFu)) | (2 << 20))  /**< Reset pin, Pin2, GPIOC, PORTC */
 #define PHDRIVER_PIN_IRQ          (((PORT_C_BASE & 0x000FFFFFu) | (GPIO_C_BASE & 0x00000FFFu)) | (3 << 20))   /**< IRQ pin, Pin3, GPIOC, PORTC */
-#define PHDRIVER_PIN_LED_GREEN    (((PORT_D_BASE & 0x000FFFFFu) | (GPIO_D_BASE & 0x00000FFFu)) | (15 << 20))   /**< IRQ pin, Pin15, GPIOD, PORTD */
+#define PHDRIVER_PIN_LED_GREEN    (((PORT_E_BASE & 0x000FFFFFu) | (GPIO_E_BASE & 0x00000FFFu)) | (8 << 20))   /**< IRQ pin, Pin15, GPIOD, PORTD */
 #define PHDRIVER_PIN_LED_RED      (((PORT_D_BASE & 0x000FFFFFu) | (GPIO_D_BASE & 0x00000FFFu)) | (16 << 20))   /**< IRQ pin, Pin16, GPIOD, PORTD */
 
 /******************************************************************

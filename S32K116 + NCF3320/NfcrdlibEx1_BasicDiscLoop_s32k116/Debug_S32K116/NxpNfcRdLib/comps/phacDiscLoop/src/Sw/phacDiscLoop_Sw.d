@@ -32,6 +32,31 @@ NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw.o: \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalsli15693\src\sw\phpalsli15693_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NfcrdlibEx1_BasicDiscLoop_s32k116/intfs/phApp_Init.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phDriver.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phbalReg.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phDriver_Gpio.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phDriver_Timer.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phNfcLib.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalEpcUid.h \
+ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalepcuid\src\sw\phpalepcuid_sw.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalI18000p3m3.h \
+ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phali18000p3m3\src\sw\phali18000p3m3_sw.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalFelica.h \
+ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phalfelica\src\sw\phalfelica_sw.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalICode.h \
+ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phalicode\src\sw\phalicode_sw.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalT1T.h \
+ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phalt1t\src\sw\phalt1t_sw.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalTop.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalMful.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalMifare.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalMfdf.h \
+ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phaltop\src\sw\phaltop_sw.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phlnLlcp.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phTools.h \
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phnpSnep.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw_Int.h
 
@@ -98,6 +123,56 @@ d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalsli15693\src\sw\phpalsli156
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalI18092mPI.h:
 
 d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpali18092mpi\src\sw\phpali18092mpi_sw.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NfcrdlibEx1_BasicDiscLoop_s32k116/intfs/phApp_Init.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phDriver.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phbalReg.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phDriver_Gpio.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/DAL/inc/phDriver_Timer.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phNfcLib.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalEpcUid.h:
+
+d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phpalepcuid\src\sw\phpalepcuid_sw.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalI18000p3m3.h:
+
+d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phali18000p3m3\src\sw\phali18000p3m3_sw.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalFelica.h:
+
+d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phalfelica\src\sw\phalfelica_sw.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalICode.h:
+
+d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phalicode\src\sw\phalicode_sw.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalT1T.h:
+
+d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phalt1t\src\sw\phalt1t_sw.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalTop.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalMful.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phpalMifare.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalMfdf.h:
+
+d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phaltop\src\sw\phaltop_sw.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phlnLlcp.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phTools.h:
+
+D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phnpSnep.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/comps/phacDiscLoop/src/Sw/phacDiscLoop_Sw.h:
 

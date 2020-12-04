@@ -12,8 +12,7 @@ NxpNfcRdLib/comps/phhalHw/src/PN7462AU/phhalHw_PN7462AU.o: \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phhalhw\src\ncx3320\phhalhw_ncx3320.h \
- D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h
+ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw.h:
 
@@ -40,5 +39,3 @@ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phhalHw_Ncx3320_Cmd.h:
 d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phhalhw\src\ncx3320\phhalhw_ncx3320.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h:

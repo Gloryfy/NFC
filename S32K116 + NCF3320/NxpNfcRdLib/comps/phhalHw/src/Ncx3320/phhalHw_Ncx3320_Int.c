@@ -25,6 +25,7 @@
 #include <phhalHw.h>
 #include <ph_RefDefs.h>
 #include <phNxpNfcRdLib_Config.h>
+#include <phApp_Init.h>
 
 #ifdef NXPBUILD__PHHAL_HW_NCx3320
 #include <phDriver.h>
@@ -2246,6 +2247,7 @@ phStatus_t phhalHw_Ncx3320_Command_Int(
         /* wait until the command is finished */
         bWaitIrqEn = (bCmdNoWrite != PH_OFF) ? PH_OFF : PH_ON;
         bWaitIrqPowerDownCheck = ((bCmd == PHHAL_HW_NCx3320_CMD_SOFTRESET) || (0U != (bCmd & PHHAL_HW_NCx3320_BIT_STANDBY))) ? PH_ON : PH_OFF;
+         //DEBUG_PRINTF("[User Log]entry here2\r\n");
         PH_CHECK_SUCCESS_FCT(statusTmp, phhalHw_Ncx3320_WaitIrq(
             pDataParams,
             bWaitIrqEn,

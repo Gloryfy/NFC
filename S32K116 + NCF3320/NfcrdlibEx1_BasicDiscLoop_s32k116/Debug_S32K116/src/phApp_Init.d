@@ -53,7 +53,6 @@ src/phApp_Init.o: ../src/phApp_Init.c \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h \
  d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phaltop\src\sw\phaltop_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phlnLlcp.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phTools.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phnpSnep.h \
@@ -199,8 +198,6 @@ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h:
 d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phaltop\src\sw\phaltop_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phlnLlcp.h:
 

@@ -19,7 +19,6 @@ NxpNfcRdLib/comps/phhalHw/src/Ncx3320/phhalHw_Ncx3320.o: \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phNxpNfcRdLib_Config.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/DAL/cfg/BoardSelection.h \
  D:/NXP/workspaceS32DS.ARM.2.2/DAL/boards/Board_FRDM_S32K116Ncx3320.h \
  D:/NXP/workspaceS32DS.ARM.2.2/S32SDK_S32K116_EAR_1.8.7/platform/devices/device_registers.h \
@@ -69,8 +68,6 @@ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h:
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phNxpNfcRdLib_Config.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/DAL/cfg/BoardSelection.h:
 

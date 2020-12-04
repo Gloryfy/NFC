@@ -18,7 +18,6 @@ NxpNfcRdLib/comps/phalMfNtag42XDna/src/Sw/phalMfNtag42XDna_Sw_Int.o: \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phTools.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h \
- d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phTMIUtils.h \
  D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phalVca.h
 
@@ -57,8 +56,6 @@ D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/types/ph_RefDefs.h:
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phTools.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phKeyStore.h:
-
-d:\nxp\workspaces32ds.arm.2.2\nxpnfcrdlib\comps\phkeystore\src\sw\phkeystore_sw.h:
 
 D:/NXP/workspaceS32DS.ARM.2.2/NxpNfcRdLib/intfs/phTMIUtils.h:
 
