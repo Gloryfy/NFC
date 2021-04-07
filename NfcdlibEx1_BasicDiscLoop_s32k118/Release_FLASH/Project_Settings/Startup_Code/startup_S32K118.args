@@ -1,0 +1,12 @@
+-c
+-I"E:/S32DS_V22/workspace/NfcdlibEx1_BasicDiscLoop_s32k118_V1_1/S32KSDK_SDK3.0.3/platform/devices"
+-I"E:/S32DS_V22/workspace/NfcdlibEx1_BasicDiscLoop_s32k118_V1_1/S32KSDK_SDK3.0.3/platform/devices/common"
+-I"E:/S32DS_V22/workspace/NfcdlibEx1_BasicDiscLoop_s32k118_V1_1/S32KSDK_SDK3.0.3/platform/devices/S32K118"
+-I"E:/S32DS_V22/workspace/NfcdlibEx1_BasicDiscLoop_s32k118_V1_1/S32KSDK_SDK3.0.3/platform/devices/S32K118/include"
+-I"E:/S32DS_V22/workspace/NfcdlibEx1_BasicDiscLoop_s32k118_V1_1/S32KSDK_SDK3.0.3/platform/devices/S32K118/startup"
+-I"E:/S32DS_V22/workspace/NfcdlibEx1_BasicDiscLoop_s32k118_V1_1/S32KSDK_SDK3.0.3/platform/drivers/inc"
+-x assembler-with-cpp
+-DSTART_FROM_FLASH
+-mcpu=cortex-m0plus
+-specs=nosys.specs
+--sysroot="D:/S32DS_ARM_v2_2/S32DS/build_tools/gcc_v6.3/gcc-6.3-arm32-eabi/arm-none-eabi/newlib"
